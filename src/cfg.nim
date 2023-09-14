@@ -1,0 +1,2 @@
+const
+  maxClients* = 4

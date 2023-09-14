@@ -1,0 +1,1 @@
+proc setTimeout*(cb: proc(userData: pointer) {.cdecl.}; msecs: int64; userData: pointer): int64 {.importc: "emscripten_set_timeout", cdecl.}
