@@ -34,6 +34,7 @@ var
   vBuf: sg.Buffer
   iBuf: sg.Buffer
   jointTex: sg.Image
+  jointSmp: sg.Sampler
 
   verts: ptr UncheckedArray[ozz.Vertex]
   vertexCount: uint
@@ -43,6 +44,8 @@ var
 
 proc jointTexture*(): sg.Image {.exportc: "joint_texture", cdecl.} =
   result = jointTex
+proc jointSampler*(): sg.Sampler {.exportc: "joint_sampler", cdecl.} =
+  result = jointSmp
 
 proc jointPixelWidth*(): float32 {.exportc: "joint_pixel_width", cdecl.} =
   result = ozz.joinTexturePixelWidth()
@@ -244,12 +247,15 @@ proc initApp(userData: pointer) {.cdecl.} =
     imgDesc.numMipmaps = 1
     imgDesc.pixelFormat = pixelFormatRGBA32F
     imgDesc.usage = usageStream
-    imgDesc.minFilter = filterNearest
-    imgDesc.magFilter = filterNearest
-    imgDesc.wrapU = wrapClampToEdge
-    imgDesc.wrapV = wrapClampToEdge
+    
+    var smpDesc: sg.SamplerDesc
+    smpDesc.minFilter = filterNearest
+    smpDesc.magFilter = filterNearest
+    smpDesc.wrapU = wrapClampToEdge
+    smpDesc.wrapV = wrapClampToEdge
 
     jointTex = makeImage(imgDesc)
+    jointSmp = makeSampler(smpDesc)
 
     ozzInst = ozz.createInstance(0)
 

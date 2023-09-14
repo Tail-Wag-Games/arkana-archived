@@ -394,8 +394,7 @@ proc stopGameClient*() {.importc: "NBN_GameClient_Stop", cdecl.}
 proc sendUnreliableGameClientMessage*(msgKind: uint8; msgData: pointer): int32 {.importc: "NBN_GameClient_SendUnreliableMessage", cdecl.}
 
 when defined(server):
-  proc getGameServerClientCount*(): uint32 =
-    result = gameServer.clients.count
+  proc getGameServerClientCount*(): uint32 {.importc: "NBN_GameServer_GetClientCount", cdecl.}
 
   proc initGameServer*(protocolName: cstring; port: uint16; encryption: bool) {.importc: "NBN_GameServer_Init", cdecl.}
   proc startGameServer*(): int32  {.importc: "NBN_GameServer_Start", cdecl.}
